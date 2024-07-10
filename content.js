@@ -32,27 +32,6 @@ function waitForQuestionText(selector) {
   });
 }
 
-// Helper function to click at specific coordinates within an element
-function clickElementAt(selector, offsetX, offsetY) {
-  const element = document.querySelector(selector);
-  if (element) {
-    const rect = element.getBoundingClientRect();
-    const x = rect.left + offsetX;
-    const y = rect.top + offsetY;
-    const clickEvent = new MouseEvent('click', {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-      clientX: x,
-      clientY: y
-    });
-    element.dispatchEvent(clickEvent);
-    console.log(`[DEBUG] Clicked at (${x}, ${y}) within ${selector}`);
-  } else {
-    console.log(`[DEBUG] Element ${selector} not found for clicking`);
-  }
-}
-
 // Fetch stored credentials and answers from Chrome storage
 chrome.storage.sync.get([
   'userId',
@@ -85,11 +64,6 @@ chrome.storage.sync.get([
       passwordElement.value = items.password;
       console.log("[DEBUG] Entered password");
 
-      // Click the "Show ID/Password" button
-      const showPasswordButton = await waitForElement('#show_password', 10000);
-      showPasswordButton.click();
-      console.log("[DEBUG] Clicked 'Show ID/Password' button");
-
       // Wait for the question text to be visible and non-empty
       const questionElement = await waitForQuestionText('#question');
       const questionText = questionElement.innerText.trim();
@@ -109,12 +83,52 @@ chrome.storage.sync.get([
       otpButton.click();
       console.log("[DEBUG] Clicked OTP button");
 
-      // Click the element with id "signin" at specific coordinates (589, 430)
-      clickElementAt('#signin', 589, 430); // Coordinates as per the requirement
-      console.log("[DEBUG] Clicked 'signin' element");
+      // Wait for 5 seconds before clicking the "Show ID/Password" button
+      setTimeout(async () => {
+        try {
+          const showPasswordButton = await waitForElement('#show_password', 10000);
+          showPasswordButton.click();
+          console.log("[DEBUG] Clicked 'Show ID/Password' button");
+        } catch (error) {
+          console.error(error);
+        }
+      }, 5000);
 
     } catch (error) {
       console.error(error);
     }
   }
 });
+
+
+
+
+// Helper function to click at specific coordinates within an element
+// function clickElementAt(selector, offsetX, offsetY) {
+//   const element = document.querySelector(selector);
+//   if (element) {
+//     const rect = element.getBoundingClientRect();
+//     const x = rect.left + offsetX;
+//     const y = rect.top + offsetY;
+//     const clickEvent = new MouseEvent('click', {
+//       view: window,
+//       bubbles: true,
+//       cancelable: true,
+//       clientX: x,
+//       clientY: y
+//     });
+//     element.dispatchEvent(clickEvent);
+//     console.log(`[DEBUG] Clicked at (${x}, ${y}) within ${selector}`);
+//   } else {
+//     console.log(`[DEBUG] Element ${selector} not found for clicking`);
+//   }
+// }
+
+
+
+
+// Wait for 5 seconds before clicking the element with id "signin" at specific coordinates (589, 430)
+      // setTimeout(() => {
+      //   clickElementAt('#signin', 589, 430); // Coordinates as per the requirement
+      //   console.log("[DEBUG] Clicked 'signin' element");
+      // }, 5000);
