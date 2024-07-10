@@ -64,10 +64,7 @@ chrome.storage.sync.get([
       passwordElement.value = items.password;
       console.log("[DEBUG] Entered password");
 
-      // Click the "Show ID/Password" button
-      const showPasswordButton = await waitForElement('#show_password', 10000);
-      showPasswordButton.click();
-      console.log("[DEBUG] Clicked 'Show ID/Password' button");
+      
 
       // Wait for the question text to be visible and non-empty
       const questionElement = await waitForQuestionText('#question');
@@ -87,6 +84,11 @@ chrome.storage.sync.get([
       const otpButton = await waitForElement('#getotp', 10000);
       otpButton.click();
       console.log("[DEBUG] Clicked OTP button");
+
+      // Click the "Show ID/Password" button
+      const showPasswordButton = await waitForElement('#show_password', 10000);
+      showPasswordButton.click();
+      console.log("[DEBUG] Clicked 'Show ID/Password' button");
 
     } catch (error) {
       console.error(error);
