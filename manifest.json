@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "ERP",
+  "name": "Markup",
   "version": "1.0",
   "permissions": [
     "storage",
