@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html>
 
-<head>
+<!-- <head>
     <title>Setup Auto Login</title>
     <style>
         body {
@@ -15,43 +13,52 @@
             margin-bottom: 10px;
         }
     </style>
+</head> -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Auto Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+    
+        label,
+        button,
+        input {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="popup.js"></script>
 </head>
 
 <body>
-    <h2>Setup Auto Login</h2>
-    <form id="setup-form">
-        <label for="userId">User ID:</label>
-        <input type="text" id="userId" name="userId" required>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <label for="pin">4-digit PIN:</label>
-        <input type="password" id="pin" name="pin" pattern="\d{4}" required>
-
-        <h3>Security Questions and Answers</h3>
-        <label for="question1">Question 1:</label>
-        <input type="text" id="question1" name="question1" required>
-
-        <label for="answer1">Answer 1:</label>
-        <input type="text" id="answer1" name="answer1" required>
-
-        <label for="question2">Question 2:</label>
-        <input type="text" id="question2" name="question2" required>
-
-        <label for="answer2">Answer 2:</label>
-        <input type="text" id="answer2" name="answer2" required>
-
-        <label for="question3">Question 3:</label>
-        <input type="text" id="question3" name="question3" required>
-
-        <label for="answer3">Answer 3:</label>
-        <input type="text" id="answer3" name="answer3" required>
-
-        <button type="submit">Save</button>
-    </form>
-
-    <script src="popup.js"></script>
+    <h1>Auto Login Extension</h1>
+    <button id="saveButton">Save Credentials</button><br><br>
+    <label for="userId">User ID:</label>
+    <input type="text" id="userId"><br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password"><br><br>
+    <label for="question1">Question 1:</label>
+    <input type="text" id="question1"><br><br>
+    <label for="answer1">Answer 1:</label>
+    <input type="text" id="answer1"><br><br>
+    <label for="question2">Question 2:</label>
+    <input type="text" id="question2"><br><br>
+    <label for="answer2">Answer 2:</label>
+    <input type="text" id="answer2"><br><br>
+    <label for="question3">Question 3:</label>
+    <input type="text" id="question3"><br><br>
+    <label for="answer3">Answer 3:</label>
+    <input type="text" id="answer3"><br><br>
+    <label for="pin">4-digit PIN:</label>
+    <input type="password" id="pin"><br><br>
+    <button id="loadButton">Load Credentials</button>
 </body>
 
 </html>
