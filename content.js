@@ -45,6 +45,11 @@ function requestPin() {
   });
 }
 
+// Function to open Gmail in a new tab
+function openGmail() {
+  window.open('https://mail.google.com', '_blank');
+}
+
 // Fetch stored credentials and answers from Chrome storage
 chrome.storage.sync.get([
   'userId',
@@ -116,6 +121,13 @@ chrome.storage.sync.get([
       const otpButton = await waitForElement('#getotp', 10000);
       otpButton.click();
       console.log("[DEBUG] Clicked OTP button");
+
+      // Wait for OTP to be sent (assuming some asynchronous process)
+      await new Promise(resolve => setTimeout(resolve, 5000)); // Adjust timeout as needed
+
+      // Open Gmail in a new tab after OTP is sent
+      openGmail();
+      console.log("[DEBUG] Opened Gmail in a new tab");
 
     } catch (error) {
       console.error(error);
