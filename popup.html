@@ -2,51 +2,55 @@
 <html>
 
 <head>
-    <title>ERP</title>
+    <title>Setup Auto Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 20px;
         }
 
-        .container {
-            padding: 10px;
-        }
-
+        label,
         input {
+            display: block;
             margin-bottom: 10px;
-            width: 100%;
-            padding: 5px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Login Info</h2>
-        <label for="userId">User ID</label>
-        <input type="text" id="userId" placeholder="Enter User ID">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter Password">
-        <label for="question1">Question 1</label>
-        <input type="text" id="question1" placeholder="Enter Question 1">
-        <input type="text" id="answer1" placeholder="Enter Answer 1">
-        <label for="question2">Question 2</label>
-        <input type="text" id="question2" placeholder="Enter Question 2">
-        <input type="text" id="answer2" placeholder="Enter Answer 2">
-        <label for="question3">Question 3</label>
-        <input type="text" id="question3" placeholder="Enter Question 3">
-        <input type="text" id="answer3" placeholder="Enter Answer 3">
-        <button id="save">Save</button>
-    </div>
+    <h2>Setup Auto Login</h2>
+    <form id="setup-form">
+        <label for="userId">User ID:</label>
+        <input type="text" id="userId" name="userId" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="pin">4-digit PIN:</label>
+        <input type="password" id="pin" name="pin" pattern="\d{4}" required>
+
+        <h3>Security Questions and Answers</h3>
+        <label for="question1">Question 1:</label>
+        <input type="text" id="question1" name="question1" required>
+
+        <label for="answer1">Answer 1:</label>
+        <input type="text" id="answer1" name="answer1" required>
+
+        <label for="question2">Question 2:</label>
+        <input type="text" id="question2" name="question2" required>
+
+        <label for="answer2">Answer 2:</label>
+        <input type="text" id="answer2" name="answer2" required>
+
+        <label for="question3">Question 3:</label>
+        <input type="text" id="question3" name="question3" required>
+
+        <label for="answer3">Answer 3:</label>
+        <input type="text" id="answer3" name="answer3" required>
+
+        <button type="submit">Save</button>
+    </form>
+
     <script src="popup.js"></script>
 </body>
 

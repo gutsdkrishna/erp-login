@@ -37,6 +37,14 @@ function waitForQuestionText(selector, timeout) {
   });
 }
 
+// Function to request PIN from user
+function requestPin() {
+  return new Promise((resolve) => {
+    const pin = prompt("Please enter your 4-digit PIN:");
+    resolve(pin);
+  });
+}
+
 // Fetch stored credentials and answers from Chrome storage
 chrome.storage.sync.get([
   'userId',
@@ -46,9 +54,10 @@ chrome.storage.sync.get([
   'question2',
   'answer2',
   'question3',
-  'answer3'
+  'answer3',
+  'pin' // Fetch stored PIN
 ], async (items) => {
-  if (items.userId && items.password && items.question1 && items.answer1 && items.question2 && items.answer2 && items.question3 && items.answer3) {
+  if (items.userId && items.password && items.question1 && items.answer1 && items.question2 && items.answer2 && items.question3 && items.answer3 && items.pin) {
     const answers = {
       [items.question1]: items.answer1,
       [items.question2]: items.answer2,
@@ -56,6 +65,15 @@ chrome.storage.sync.get([
     };
 
     try {
+      // Request the PIN from the user
+      const enteredPin = await requestPin();
+
+      // Check if the entered PIN matches the stored PIN
+      if (enteredPin !== items.pin) {
+        alert("Incorrect PIN. Access denied.");
+        return;
+      }
+
       // Open the login page
       console.log("[DEBUG] Opened the website");
 
