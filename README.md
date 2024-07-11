@@ -7,7 +7,7 @@ This Chrome extension automatically logs you into a specified website using your
 This Chrome extension automatically logs you into a specified website using your stored credentials and security question answers.
 
 ## Features
-- Automatically fills in user ID and password.
+- Automatically fills in user ID and password with just a 4 digit pin.
 - Handles security questions by fetching stored answers.
 - Clicks buttons to complete the login process.
 
@@ -43,6 +43,9 @@ This Chrome extension automatically logs you into a specified website using your
 
 ## How It Works
 
+0. **PIN Verification:**
+    - Before performing any actions, the extension prompts the user to enter a 4-digit PIN and verifies it against the stored PIN.
+
 1. **Wait for Elements:**
     - The extension uses helper functions to wait for specific elements on the page to be available. This ensures that elements are interacted with only when they are ready.
 
@@ -54,3 +57,4 @@ This Chrome extension automatically logs you into a specified website using your
 
 4. **Handle Security Questions:**
     - The extension waits for the security question to appear, fetches the appropriate answer from storage, and fills it in the answer field.
+      
