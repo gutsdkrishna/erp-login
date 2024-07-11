@@ -1,18 +1,7 @@
 # Auto Login Chrome Extension
 
 This Chrome extension automatically logs you into a specified website using your stored credentials and security question answers.
-
-## Features
-- Automatically fills in user ID and password.
-- Handles security questions by fetching stored answers.
-- Clicks buttons to complete the login process.
-
-## Installation
-
-1. **Clone the Repository:**
-   ```sh
-   git clone <repository-url>
-   cd <repository-directory>
+   
 # Auto Login Chrome Extension
 
 This Chrome extension automatically logs you into a specified website using your stored credentials and security question answers.
@@ -27,7 +16,7 @@ This Chrome extension automatically logs you into a specified website using your
 1. **Clone the Repository:**
 
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/gutsdkrishna/erp-login
     cd <repository-directory>
     ```
 
