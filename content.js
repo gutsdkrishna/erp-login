@@ -50,6 +50,9 @@ function openGmail() {
   window.open('https://mail.google.com', '_blank');
 }
 
+// Session storage key for PIN verification flag
+const PIN_VERIFIED_KEY = 'pinVerified';
+
 // Fetch stored credentials and answers from Chrome storage
 chrome.storage.sync.get([
   'userId',
@@ -70,13 +73,19 @@ chrome.storage.sync.get([
     };
 
     try {
-      // Request the PIN from the user
-      const enteredPin = await requestPin();
+      // Check if the PIN has already been verified during this session
+      if (sessionStorage.getItem(PIN_VERIFIED_KEY) !== 'true') {
+        // Request the PIN from the user
+        const enteredPin = await requestPin();
 
-      // Check if the entered PIN matches the stored PIN
-      if (enteredPin !== items.pin) {
-        alert("Incorrect PIN. Access denied.");
-        return;
+        // Check if the entered PIN matches the stored PIN
+        if (enteredPin !== items.pin) {
+          alert("Incorrect PIN. Access denied.");
+          return;
+        }
+
+        // Set the session flag indicating the PIN has been verified
+        sessionStorage.setItem(PIN_VERIFIED_KEY, 'true');
       }
 
       // Open the login page
