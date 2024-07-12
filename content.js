@@ -53,8 +53,8 @@ function openGmail() {
 // Session storage key for PIN verification flag
 const PIN_VERIFIED_KEY = 'pinVerified';
 
-// Fetch stored credentials and answers from Chrome storage
-chrome.storage.sync.get([
+// Fetch stored credentials and answers from browser storage
+browser.storage.sync.get([
   'userId',
   'password',
   'question1',
@@ -64,87 +64,91 @@ chrome.storage.sync.get([
   'question3',
   'answer3',
   'pin' // Fetch stored PIN
-], async (items) => {
-  if (items.userId && items.password && items.question1 && items.answer1 && items.question2 && items.answer2 && items.question3 && items.answer3 && items.pin) {
-    const answers = {
-      [items.question1]: items.answer1,
-      [items.question2]: items.answer2,
-      [items.question3]: items.answer3
-    };
+]).then(async (items) => {
+  // Check if items are undefined or empty
+  if (!items || !items.userId || !items.password || !items.question1 || !items.answer1 || !items.question2 || !items.answer2 || !items.question3 || !items.answer3 || !items.pin) {
+    console.error('[DEBUG] Some or all stored items are missing.');
+    return;
+  }
 
-    try {
-      // Check if the PIN has already been verified during this session
-      if (sessionStorage.getItem(PIN_VERIFIED_KEY) !== 'true') {
-        // Request the PIN from the user
-        const enteredPin = await requestPin();
+  const answers = {
+    [items.question1]: items.answer1,
+    [items.question2]: items.answer2,
+    [items.question3]: items.answer3
+  };
 
-        // Check if the entered PIN matches the stored PIN
-        if (enteredPin !== items.pin) {
-          alert("Incorrect PIN. Access denied.");
-          return;
-        }
+  try {
+    // Check if the PIN has already been verified during this session
+    if (sessionStorage.getItem(PIN_VERIFIED_KEY) !== 'true') {
+      // Request the PIN from the user
+      const enteredPin = await requestPin();
 
-        // Set the session flag indicating the PIN has been verified
-        sessionStorage.setItem(PIN_VERIFIED_KEY, 'true');
+      // Check if the entered PIN matches the stored PIN
+      if (enteredPin !== items.pin) {
+        alert("Incorrect PIN. Access denied.");
+        return;
       }
 
-      // Open the login page
-      console.log("[DEBUG] Opened the website");
-
-      // Enter user ID
-      const userIdElement = await waitForElement('#user_id', 10000);
-      userIdElement.value = items.userId;
-      console.log("[DEBUG] Entered User ID");
-
-      // Random delay before entering password
-      await new Promise(r => setTimeout(r, Math.random() * 1000 + 500));
-
-      // Enter password
-      const passwordElement = await waitForElement('#password', 10000);
-      passwordElement.value = items.password;
-      console.log("[DEBUG] Entered password");
-
-      // Click the "Show ID/Password" button
-      const showPasswordButton = await waitForElement('#show_password', 10000);
-      showPasswordButton.click();
-      console.log("[DEBUG] Clicked 'Show ID/Password' button");
-
-      // Wait for the question text to be visible and non-empty
-      const questionElement = await waitForQuestionText('#question', 10000);
-      const questionText = questionElement.innerText.trim();
-      console.log(`[DEBUG] Question text fetched: ${questionText}`);
-
-      // Random delay before entering the answer
-      await new Promise(r => setTimeout(r, Math.random() * 1000 + 500));
-
-      // Find the correct answer
-      const answer = answers[questionText] || "default_answer";
-      console.log(`[DEBUG] Found answer for the question: ${answer}`);
-
-      // Enter the answer
-      const answerElement = await waitForElement('#answer', 10000);
-      answerElement.value = answer;
-      console.log("[DEBUG] Entered answer");
-
-      // Click the OTP button
-      const otpButton = await waitForElement('#getotp', 10000);
-      otpButton.click();
-      console.log("[DEBUG] Clicked OTP button");
-
-      // Wait for OTP to be sent (assuming some asynchronous process)
-      await new Promise(resolve => setTimeout(resolve, 5000)); // Adjust timeout as needed
-
-      // Open Gmail in a new tab after OTP is sent
-      openGmail();
-      console.log("[DEBUG] Opened Gmail in a new tab");
-
-    } catch (error) {
-      console.error(error);
+      // Set the session flag indicating the PIN has been verified
+      sessionStorage.setItem(PIN_VERIFIED_KEY, 'true');
     }
+
+    // Open the login page
+    console.log("[DEBUG] Opened the website");
+
+    // Enter user ID
+    const userIdElement = await waitForElement('#user_id', 10000);
+    userIdElement.value = items.userId;
+    console.log("[DEBUG] Entered User ID");
+
+    // Random delay before entering password
+    await new Promise(r => setTimeout(r, Math.random() * 1000 + 500));
+
+    // Enter password
+    const passwordElement = await waitForElement('#password', 10000);
+    passwordElement.value = items.password;
+    console.log("[DEBUG] Entered password");
+
+    // Click the "Show ID/Password" button
+    const showPasswordButton = await waitForElement('#show_password', 10000);
+    showPasswordButton.click();
+    console.log("[DEBUG] Clicked 'Show ID/Password' button");
+
+    // Wait for the question text to be visible and non-empty
+    const questionElement = await waitForQuestionText('#question', 10000);
+    const questionText = questionElement.innerText.trim();
+    console.log(`[DEBUG] Question text fetched: ${questionText}`);
+
+    // Random delay before entering the answer
+    await new Promise(r => setTimeout(r, Math.random() * 1000 + 500));
+
+    // Find the correct answer
+    const answer = answers[questionText] || "default_answer";
+    console.log(`[DEBUG] Found answer for the question: ${answer}`);
+
+    // Enter the answer
+    const answerElement = await waitForElement('#answer', 10000);
+    answerElement.value = answer;
+    console.log("[DEBUG] Entered answer");
+
+    // Click the OTP button
+    const otpButton = await waitForElement('#getotp', 10000);
+    otpButton.click();
+    console.log("[DEBUG] Clicked OTP button");
+
+    // Wait for OTP to be sent (assuming some asynchronous process)
+    await new Promise(resolve => setTimeout(resolve, 5000)); // Adjust timeout as needed
+
+    // Open Gmail in a new tab after OTP is sent
+    openGmail();
+    console.log("[DEBUG] Opened Gmail in a new tab");
+
+  } catch (error) {
+    console.error(error);
   }
+}).catch((error) => {
+  console.error('[DEBUG] Error fetching items from storage:', error);
 });
-
-
 
 
 // // Helper function to simulate the Python script's wait and debug print functionality
