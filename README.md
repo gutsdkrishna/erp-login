@@ -1,6 +1,8 @@
 # Auto Login Chrome Extension
-
 This Chrome extension automatically logs you into a specified website using your stored credentials and security question answers.
+
+## Video Demonstration
+https://github.com/user-attachments/assets/9bbbcc85-bfde-45ea-98c7-eaf17ddce186
    
 # Auto Login Chrome Extension
 
